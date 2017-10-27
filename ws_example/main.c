@@ -41,7 +41,8 @@ int main(void)
 
   TIM_OCInitTypeDef aaa;
   aaa.TIM_OCMode=TIM_OCMode_PWM1;
-  aaa.TIM_Pulse=100;
+  aaa.TIM_Pulse=1000;
+  aaa.TIM_OCPolarity=TIM_OCPolarity_High; 
   TIM_OC1Init(TIM1,&aaa);
   TIM_OC1PreloadConfig(TIM1,TIM_OCPreload_Enable);
 
