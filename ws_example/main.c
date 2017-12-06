@@ -23,26 +23,40 @@ int main(void)
 
   //Timer
   TIM_TimeBaseInitTypeDef tim;
-  tim.TIM_Period=100000-1;
+  tim.TIM_Period=1000000-1;
   tim.TIM_Prescaler=84-1;
   tim.TIM_ClockDivision=0;
   tim.TIM_CounterMode=TIM_CounterMode_Up;
   TIM_TimeBaseInit(TIM2,&tim);
+  TIM_ITConfig(TIM2, TIM_IT_Update,ENABLE);
   TIM_Cmd(TIM2,ENABLE);
 
-    GPIOA->BSRRL = P9|P10;
-  int ok=0;
+  //Interrupt
+  NVIC_InitTypeDef nvt;
+  nvt.NVIC_IRQChannel= TIM2_IRQn;
+  nvt.NVIC_IRQChannelPreemptionPriority=0;
+  nvt.NVIC_IRQChannelSubPriority=1;
+  nvt.NVIC_IRQChannelCmd=ENABLE;
+  NVIC_Init(&nvt);
+    
+  GPIOA->BSRRL = P8|P9|P10;
   while (1)
   {
-          if(TIM_GetCounter(TIM2)==0)
-          {
+  }
+} 
+  int ok=0;
+  void TIM2_IRQHandler(void)
+  {
+
+
              if(ok==0)
 	       GPIOA->BSRRH = P8;
-	       // for (i=0; i < SWITCH_DELAY; i++)
+
 	     if(ok==1)
 	       GPIOA->BSRRL =P8;
              ok=(ok+1)%2;
-          }
-	 // for (i=0; i < SWITCH_DELAY; i++)
+
+
+     if(TIM_GetITStatus(TIM2,TIM_IT_Update)!=RESET)
+     TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
   }
-}
