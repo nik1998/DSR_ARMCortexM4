@@ -12,7 +12,8 @@ int main(void)
   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
   RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
-  
+ 
+
   /* Init leds */
   GPIO_InitStructure.GPIO_Pin = P8|P9|P10;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
@@ -20,6 +21,7 @@ int main(void)
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
+
 
   //Timer
   TIM_TimeBaseInitTypeDef tim;
@@ -30,6 +32,7 @@ int main(void)
   TIM_TimeBaseInit(TIM2,&tim);
   TIM_ITConfig(TIM2, TIM_IT_Update,ENABLE);
   TIM_Cmd(TIM2,ENABLE);
+
 
   //Interrupt
   NVIC_InitTypeDef nvt;
