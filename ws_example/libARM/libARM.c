@@ -27,9 +27,9 @@ static int pulse=1600;
     GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
     GPIO_Init(GPIOA, &GPIO_InitStructure);
   }
- 
+   
   //Int Timer
-  void InitTIM1andPWM(void)
+  void TimTim()
   {
     TIM_TimeBaseInitTypeDef ttt;
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1,ENABLE);
@@ -46,10 +46,28 @@ static int pulse=1600;
     aaa.TIM_OCPolarity=TIM_OCPolarity_High; 
     TIM_OC1Init(TIM1,&aaa);
     TIM_OC1PreloadConfig(TIM1,TIM_OCPreload_Enable);
-  }  
+  }
+
+ /* void Timm()
+  {
+    TIM_TimeBaseInitTypeDef ttt;
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1,ENABLE);
+    ttt.TIM_Period=100000/60-1;
+    ttt.TIM_Prescaler=1680;
+    ttt.TIM_ClockDivision=0;
+    ttt.TIM_CounterMode=TIM_CounterMode_Up;
+    TIM_TimeBaseInit(TIM1,&ttt);
+    TIM_CtrlPWMOutputs(TIM1,ENABLE);
+    TIM_Cmd(TIM1,ENABLE);
+    TIM_OCInitTypeDef aaa;
+    aaa.TIM_OCMode=TIM_OCMode_PWM1;
+    aaa.TIM_Pulse=1600;
+    aaa.TIM_OCPolarity=TIM_OCPolarity_High; 
+    TIM_OC1Init(TIM1,&aaa);
+    TIM_OC1PreloadConfig(TIM1,TIM_OCPreload_Enable);
+  } */ 
   void  ChangePulse(int delta)      
   {    
-     pulse=pulse-100*h;
      if(pulse+delta>0 && pulse+delta<1600)
      {
         pulse=pulse+delta;

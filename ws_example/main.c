@@ -1,5 +1,5 @@
 #include "main.h"
-
+#include "libARM/libARM.h"
 #define SWITCH_DELAY 500000
 
 
@@ -10,14 +10,14 @@ int main(void)
 
   /* Enable peripheral clock for GPIOD port */
  // RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
-  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+ /* RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOE, ENABLE);
 //button interrupt
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
   SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOE, EXTI_PinSource0);
   SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOE, EXTI_PinSource1);
   //Init Leds 
-  GPIO_PinAFConfig(GPIOA,GPIO_PinSource8|GPIO_PinSource9|GPIO_PinSource10,GPIO_AF_TIM1);
+ GPIO_PinAFConfig(GPIOA,GPIO_PinSource8|GPIO_PinSource9|GPIO_PinSource10,GPIO_AF_TIM1);
   GPIO_InitStructure.GPIO_Pin= GPIO_Pin_8;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
   GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
@@ -41,10 +41,10 @@ int main(void)
   aaa.TIM_Pulse=800;
   aaa.TIM_OCPolarity=TIM_OCPolarity_High; 
   TIM_OC1Init(TIM1,&aaa);
-  TIM_OC1PreloadConfig(TIM1,TIM_OCPreload_Enable);
+  TIM_OC1PreloadConfig(TIM1,TIM_OCPreload_Enable);*/
 
 
- //button
+/* //button
   GPIO_InitTypeDef GPIO_In;
 GPIO_In.GPIO_Pin= GPIO_Pin_1|GPIO_Pin_0;
   GPIO_In.GPIO_Mode = GPIO_Mode_IN;
@@ -71,16 +71,19 @@ int main(void)
   NVIC_Init(&nvec);
 
   nvec.NVIC_IRQChannel=EXTI1_IRQn;
-  NVIC_Init(&nvec);
-
+  NVIC_Init(&nvec);*/
+  InitLeds(0);
+  InitTIM1();
+  int h=1;
   while (1)
   {    
-    
+    ChangePulse(-100);
+    for(int i=0;i<1000000;i++);
   }
 }  
  int ind=3;
 
-void EXTI0_IRQHandler(void)
+/*void EXTI0_IRQHandler(void)
 {
   if(EXTI_GetITStatus(EXTI_Line0)!=RESET)
   {
@@ -113,5 +116,5 @@ void EXTI1_IRQHandler(void)
     TIM_SetCompare1(TIM1,pulse);
     EXTI_ClearITPendingBit(EXTI_Line1);
   }
-}
+}*/
 

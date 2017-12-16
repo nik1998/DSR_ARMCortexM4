@@ -18,13 +18,13 @@
 ##
 #.PHONY: libARM
 .PHONY: libARM
-all: |libARM images 
+all: |libARM images
 
 BUILD_HOME=../..
 
 BINARY = main
-LDLIBS =-lled
-LDFLAGS +=-LlibARM
+LDLIBS =-lARM
+LDFLAGS +=-L./libARM
 include $(BUILD_HOME)/src/Makefile.include
 
 libARM:

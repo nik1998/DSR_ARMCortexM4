@@ -1,10 +1,10 @@
-#ifndef __LEDS_AND_BUTTON_H
-#define __LEDS_AND_BUTTON_H
+#ifndef __LEDS_AND_BUTTON_H_2
+#define __LEDS_AND_BUTTON_H__
 #define HSE_VALUE 8000000
 #include "stm32f4xx.h"
 
 void ChangePulse(int delta);
-void InitTim1andPWM();
+//void Timm();
 void InitLeds(int Pins);
 #endif
 

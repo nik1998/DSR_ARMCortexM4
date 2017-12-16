@@ -19,7 +19,7 @@
 
 #all: images
 # all:libARM.c libARM.h
-BUILD_HOME=../../..
+BUILD_HOME=../../../
 
 
 # BINARY = libARM
@@ -29,7 +29,7 @@ LIBRARY_NAME=ARM
 LIB=lib$(LIBRARY_NAME).a
 
 all:$(LIB)
-OBJECT_FILE=${libARM.c:.c=.o}
+OBJECT_FILE=libARM.o
 $(LIB):$(OBJECT_FILE)
 	$(AR) r $(LIB) $(OBJECT_FILE)
 
