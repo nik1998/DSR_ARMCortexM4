@@ -1,5 +1,5 @@
-#include "main.h"
-#include "lib.h"
+
+#include "libARM.h"
 
 #define SWITCH_DELAY 500000
 static int pulse=1600;
