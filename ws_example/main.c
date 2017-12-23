@@ -6,12 +6,11 @@
 #define LED3_PIN GPIO_Pin_14
 #define LED4_PIN GPIO_Pin_15
 
-
+char co=0;
 int main(void)
 {
   GPIO_InitTypeDef  GPIO_InitStructure;
 
-  /* Enable peripheral clock for GPIOD port */
  // RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOE, ENABLE);
@@ -27,10 +26,27 @@ int main(void)
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
+  //Timer
+  TIM_TimeBaseInitTypeDef ttt;
+  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2,ENABLE);
+  ttt.TIM_Period=1000000-1;
+  ttt.TIM_Prescaler=84-1;
+  ttt.TIM_ClockDivision=0;
+  ttt.TIM_CounterMode=TIM_CounterMode_Up;
+  TIM_TimeBaseInit(TIM2,&ttt);
+  TIM_ITConfig(TIM2, TIM_IT_Update,ENABLE);
+  TIM_Cmd(TIM2,ENABLE);
+  //Timer vector
+  NVIC_InitTypeDef nv;
+  nv.NVIC_IRQChannel=TIM2_IRQn;
+  nv.NVIC_IRQChannelPreemptionPriority=0x00;
+  nv.NVIC_IRQChannelSubPriority=0x01;
+  nv.NVIC_IRQChannelCmd=ENABLE;
+  NVIC_Init(&nv);
 
  //button
  GPIO_InitTypeDef GPIO_In;
-GPIO_In.GPIO_Pin= GPIO_Pin_1|GPIO_Pin_0;
+GPIO_In.GPIO_Pin= GPIO_Pin_0;
   GPIO_In.GPIO_Mode = GPIO_Mode_IN;
   GPIO_In.GPIO_OType = GPIO_OType_PP;
   GPIO_In.GPIO_Speed = GPIO_Speed_100MHz;
@@ -51,37 +67,54 @@ int main(void)
   nvec.NVIC_IRQChannelSubPriority=0x01;
   nvec.NVIC_IRQChannelCmd=ENABLE;
   NVIC_Init(&nvec);
-
-  //int index
- // int ok=1;
-  //int c=1665;
+  co=0;
+  GPIO_SetBits(GPIOA,GPIO_Pin_10|GPIO_Pin_9|GPIO_Pin_8);
   while (1)
   {    
   }
 }
-
- int index=3;
-void EXIT0_IRQHandler(void)
+int ok=1;
+ int ind=3;
+void TIM2_IRQHandler(void)
 {
+  if(ok==0)
+  {
+    co++;
+  }
+  if(co==2)
+  {
+    co=0;
+    ok=1;
+  }
+  if(TIM_GetITStatus(TIM2,TIM_IT_Update)!=RESET)
+  {
+    TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
+  }
+}
+void EXTI0_IRQHandler(void)
+{
+  if(ok==1)
   if(EXTI_GetITStatus(EXTI_Line0)!=RESET)
   {
+    ok=0;
      GPIO_SetBits(GPIOA,GPIO_Pin_10|GPIO_Pin_9|GPIO_Pin_8);
-      if(index==1)
+      if(ind==1)
+    
       {
          GPIO_ResetBits(GPIOA,GPIO_Pin_9);
-         index=2;
+         ind=2;
       }
       else
-            if(index==2)
+            if(ind==2)
             {
               GPIO_ResetBits(GPIOA,GPIO_Pin_10);
-              index=3;
+              ind=3;
             }
             else
-            if(index==3)
+            if(ind==3)
             {
               GPIO_ResetBits(GPIOA,GPIO_Pin_8);
-              index=1;
+              ind=1;
             }
 
     EXTI_ClearITPendingBit(EXTI_Line0);
