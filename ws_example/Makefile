@@ -16,11 +16,16 @@
 ## You should have received a copy of the GNU Lesser General Public License
 ## along with this library. If not, see <http://www.gnu.org/licenses/>.
 ##
-
-all: images
+.PHONY: libARM
+all:| libARM images
 
 BUILD_HOME=../..
 
 BINARY = main
+LDLIBS=-lARM
+LDFLAGS+= -LlibARM
 
 include $(BUILD_HOME)/src/Makefile.include
+
+libARM:
+	$(MAKE) -C libARM
