@@ -49,7 +49,6 @@ static int pulse=1600;
   }  
   void  ChangePulse(int delta)      
   {    
-     pulse=pulse-100*h;
      if(pulse+delta>0 && pulse+delta<1600)
      {
         pulse=pulse+delta;

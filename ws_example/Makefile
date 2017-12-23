@@ -1,4 +1,4 @@
-##
+##2
 ## This file is part of the libopencm3 project.
 ##
 ## Copyright (C) 2009 Uwe Hermann <uwe@hermann-uwe.de>
@@ -17,15 +17,18 @@
 ## along with this library. If not, see <http://www.gnu.org/licenses/>.
 ##
 #.PHONY: libARM
-.PHONY: libARM
-all: |libARM images 
+#.PHONY: libARM
+#all: |libARM images
 
+all:images
 BUILD_HOME=../..
 
 BINARY = main
-LDLIBS =-lled
-LDFLAGS +=-LlibARM
+
+#LDLIBS =-lARM
+#LDFLAGS +=-LlibARM
+
 include $(BUILD_HOME)/src/Makefile.include
 
-libARM:
-	$(MAKE) -C libARM
+#libARM:
+#	$(MAKE) -C libARM
