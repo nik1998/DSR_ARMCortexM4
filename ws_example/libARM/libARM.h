@@ -9,4 +9,12 @@ void Timm();
 void InitLeds(int Pins, int PinSource);
 #endif
 
-
+//Library has 3 functions:-
+//1) void InitLeds(int Pins , int PinSource) -initialize LEDs
+//-the first argument  Pins - pins of the LEDS
+//-the second argument PinSource pin configuration PWM
+//2)void TimTim() initialize first Timer (TIM1)
+//3) void ChangePulse (int delta)
+//alters the pulse (pulse width) on delta
+//If the ending value is greater than 1600 or less than 0,
+//the value does not change.
