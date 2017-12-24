@@ -15,12 +15,12 @@ static int pulse=1600;
   // SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOE,EXTI_PinSource0);
 
   //Init Leds
-  void InitLeds(int Pins)
+  void InitLeds(int Pins,int PinSource)
   {
     GPIO_InitTypeDef  GPIO_InitStructure;
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
-    GPIO_PinAFConfig(GPIOA,GPIO_PinSource8,GPIO_AF_TIM1);
-  GPIO_InitStructure.GPIO_Pin= GPIO_Pin_8/*|GPIO_Pin_9|GPIO_Pin_10*/;
+    GPIO_PinAFConfig(GPIOA,PinSource,GPIO_AF_TIM1);
+  GPIO_InitStructure.GPIO_Pin= Pins;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
     GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
@@ -46,6 +46,10 @@ static int pulse=1600;
     aaa.TIM_OCPolarity=TIM_OCPolarity_High; 
     TIM_OC1Init(TIM1,&aaa);
     TIM_OC1PreloadConfig(TIM1,TIM_OCPreload_Enable);
+    TIM_OC2Init(TIM1,&aaa);
+    TIM_OC2PreloadConfig(TIM1,TIM_OCPreload_Enable);
+    TIM_OC3Init(TIM1,&aaa);
+    TIM_OC3PreloadConfig(TIM1,TIM_OCPreload_Enable);
   }
 
  /* void Timm()
@@ -65,7 +69,8 @@ static int pulse=1600;
     aaa.TIM_OCPolarity=TIM_OCPolarity_High; 
     TIM_OC1Init(TIM1,&aaa);
     TIM_OC1PreloadConfig(TIM1,TIM_OCPreload_Enable);
-  } */ 
+  } */
+
   void  ChangePulse(int delta)      
   {    
      if(pulse+delta>0 && pulse+delta<1600)
