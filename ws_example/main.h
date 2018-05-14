@@ -2,7 +2,7 @@
 #define __LEDS_AND_BUTTON_H
 #define HSE_VALUE 8000000
 #include "stm32f4xx.h"
-
+#include "stm32f4xx_conf.h"
 #if defined (USE_STM324xG_EVAL)
   #include "stm324xg_eval.h"
 
